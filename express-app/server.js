@@ -32,7 +32,7 @@ const schoolData = {
 
 
 // Route to add a student to a class
-app.post('/students', (req, res) => {
+app.post('/newstudent', (req, res) => {
   const { classId, name, age, sex } = req.body;
 
   // Check if classId is provided
@@ -60,16 +60,26 @@ app.post('/students', (req, res) => {
   }, 5000); // 5000 milliseconds (5 seconds)
 });
 
-// Route to get all school data
-app.get('/classes', (req, res) => {
+// Route to get student data by class ID
+app.get('/students/:classId', (req, res) => {
+  const { classId } = req.params;
+
+  // Check if the class exists in schoolData
+  if (!schoolData.classes[classId]) {
+    return res.status(404).json({ message: `Class ${classId} not found` });
+  }
+
+  // Retrieve students for the specified class
+  const { students } = schoolData.classes[classId];
+
   // Simulate a delay of 5 seconds before sending the response
   setTimeout(() => {
-    res.status(200).json(schoolData);
+    res.status(200).json(students);
   }, 5000); // 5000 milliseconds (5 seconds)
 });
 
 // Route to get all student data with class information
-app.get('/students/all', (req, res) => {
+app.get('/allstudents', (req, res) => {
   const allStudents = [];
 
   // Loop through each class and gather student data
@@ -86,6 +96,31 @@ app.get('/students/all', (req, res) => {
   // Simulate a delay of 5 seconds before sending the response
   setTimeout(() => {
     res.status(200).json(allStudents);
+  }, 5000); // 5000 milliseconds (5 seconds)
+});
+
+// Route to get refined statistics for each class
+app.get('/stats/classes', (req, res) => {
+  const classStats = {};
+
+  // Loop through each class to calculate statistics
+  Object.keys(schoolData.classes).forEach(classId => {
+    const { students, totalStudents } = schoolData.classes[classId];
+    const maleStudents = students.filter(student => student.sex === 'M').length;
+    const femaleStudents = students.filter(student => student.sex === 'F').length;
+    const averageAge = totalStudents > 0 ? students.reduce((sum, student) => sum + student.age, 0) / totalStudents : 0;
+
+    classStats[`Class ${classId}`] = {
+      totalStudents,
+      maleStudents,
+      femaleStudents,
+      averageAge: totalStudents > 0 ? averageAge : undefined // Only include average age if there are students
+    };
+  });
+
+  // Simulate a delay of 5 seconds before sending the response
+  setTimeout(() => {
+    res.status(200).json(classStats);
   }, 5000); // 5000 milliseconds (5 seconds)
 });
 
