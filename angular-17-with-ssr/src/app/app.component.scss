@@ -1,0 +1,23 @@
+/* Styles for the h1 heading */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.wrapper {
+  display: flex;
+  height: 100vh; /* Full viewport height */
+}
+
+/* Styles for the shared component area */
+.shared-component {
+  width: 250px; /* Fixed width for the side nav */
+  background-color: #f0f0f0;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for the main panel area */
+.main-panel {
+  flex: 1; /* Take remaining space */
+  padding: 20px;
+}
