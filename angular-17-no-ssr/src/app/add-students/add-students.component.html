@@ -1,0 +1,39 @@
+<h2>Add New Student</h2>
+
+<form [formGroup]="studentForm" (ngSubmit)="onSubmit()" class="student-form">
+  <div class="form-group">
+    <label for="classId">Class:</label>
+    <select id="classId" formControlName="classId" class="form-control">
+      <option *ngFor="let classNum of classOptions" [value]="classNum">{{ classNum }}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="name">Name:</label>
+    <input type="text" id="name" formControlName="name" class="form-control" />
+    <div *ngIf="studentForm.get('name')?.invalid && studentForm.get('name')?.touched" class="error-message">
+      <small *ngIf="studentForm.get('name')?.errors?.['required']">Name is required.</small>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="age">Age:</label>
+    <input type="number" id="age" formControlName="age" class="form-control" />
+    <div *ngIf="studentForm.get('age')?.invalid && studentForm.get('age')?.touched" class="error-message">
+      <small *ngIf="studentForm.get('age')?.errors?.['required']">Age is required.</small>
+      <small *ngIf="studentForm.get('age')?.errors?.['min']">Age must be at least 1.</small>
+      <small *ngIf="studentForm.get('age')?.errors?.['max']">Age cannot exceed 18.</small>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="sex">Sex:</label>
+    <select id="sex" formControlName="sex" class="form-control">
+      <option value="M">Male</option>
+      <option value="F">Female</option>
+    </select>
+    <div *ngIf="studentForm.get('sex')?.invalid && studentForm.get('sex')?.touched" class="error-message">
+      <small>Sex is required.</small>
+    </div>
+  </div>
+  <div class="form-group">
+    <button type="submit" [disabled]="studentForm.invalid" class="submit-button">Add Student</button>
+  </div>
+</form>

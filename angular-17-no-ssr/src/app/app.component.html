@@ -1,2 +1,9 @@
-<button routerLink="demo1">demo1</button>
-<router-outlet></router-outlet>
+<div class="wrapper">
+  <div class="shared-component">
+    <app-side-nav></app-side-nav>
+  </div>
+  <div class="main-panel">
+    <h1>APP Without SSR POC</h1>
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<h2>Student details page</h2>
+@if (loading) {
+<h3>Loading...</h3>
+} @else { @if (studentsData) {
+<div [chart]="chart" style="width: 100%; height: 400px;"></div>
+<table>
+  <thead>
+    <tr>
+      <th>Student Name</th>
+      <th>Gender</th>
+      <th>Age</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (studentData of studentsData; track $index) {
+    <tr>
+      <td>{{ studentData.name }}</td>
+      <td>{{ studentData.sex }}</td>
+      <td>{{ studentData.age }}</td>
+    </tr>
+    } @empty {
+    <tr>
+      <td>Dummy Name</td>
+      <td>Dummy Gender</td>
+      <td>Dummy Age</td>
+    </tr>
+    }
+  </tbody>
+</table>
+} }

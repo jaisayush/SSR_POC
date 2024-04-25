@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
-app.use(express.json());
+var cors = require('cors')
 
+app.use(express.json());
+app.use(cors())
 // School data structure
 const schoolData = {
   totalStudents: 2,
@@ -54,10 +56,10 @@ app.post('/newstudent', (req, res) => {
   schoolData.classes[classId].totalStudents++;
   schoolData.totalStudents++; // Increment total students at the school level
 
-  // Simulate a delay of 5 seconds before sending the response
+  // Simulate a delay of 1 seconds before sending the response
   setTimeout(() => {
     res.status(201).json({ message: 'Student added successfully', newStudent });
-  }, 5000); // 5000 milliseconds (5 seconds)
+  }, 1000); // 1000 milliseconds (1 seconds)
 });
 
 // Route to get student data by class ID
@@ -66,16 +68,20 @@ app.get('/students/:classId', (req, res) => {
 
   // Check if the class exists in schoolData
   if (!schoolData.classes[classId]) {
-    return res.status(404).json({ message: `Class ${classId} not found` });
+    return res.status(200).json([]);
   }
 
   // Retrieve students for the specified class
   const { students } = schoolData.classes[classId];
+  const studentsWithClassId = students.map(student => ({
+    ...student,
+    classId: +classId
+  }));
 
-  // Simulate a delay of 5 seconds before sending the response
+  // Simulate a delay of 1 seconds before sending the response
   setTimeout(() => {
-    res.status(200).json(students);
-  }, 5000); // 5000 milliseconds (5 seconds)
+    res.status(200).json(studentsWithClassId);
+  }, 1000); // 1000 milliseconds (1 seconds)
 });
 
 // Route to get all student data with class information
@@ -93,10 +99,10 @@ app.get('/allstudents', (req, res) => {
     });
   });
 
-  // Simulate a delay of 5 seconds before sending the response
+  // Simulate a delay of 1 seconds before sending the response
   setTimeout(() => {
     res.status(200).json(allStudents);
-  }, 5000); // 5000 milliseconds (5 seconds)
+  }, 1000); // 1000 milliseconds (1 seconds)
 });
 
 // Route to get refined statistics for each class
@@ -111,6 +117,7 @@ app.get('/stats/classes', (req, res) => {
     const averageAge = totalStudents > 0 ? students.reduce((sum, student) => sum + student.age, 0) / totalStudents : 0;
 
     classStats[`Class ${classId}`] = {
+      classId: +classId,
       totalStudents,
       maleStudents,
       femaleStudents,
@@ -118,10 +125,10 @@ app.get('/stats/classes', (req, res) => {
     };
   });
 
-  // Simulate a delay of 5 seconds before sending the response
+  // Simulate a delay of 1 seconds before sending the response
   setTimeout(() => {
     res.status(200).json(classStats);
-  }, 5000); // 5000 milliseconds (5 seconds)
+  }, 1000); // 1000 milliseconds (1 seconds)
 });
 
 // Start the server

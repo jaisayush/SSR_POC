@@ -1,1 +1,47 @@
-<p>class-details works!</p>
+<h2>School Stats</h2>
+
+@if (loading) {
+<h3>Loading...</h3>
+} @else { @if (classStats) {
+<div [chart]="chart" style="width: 100%; height: 400px;"></div>
+<table>
+  <thead>
+    <tr>
+      <th>Class Name</th>
+      <th>Total Students</th>
+      <th>Total Male Students</th>
+      <th>Total Female Students</th>
+      <th>Average Age</th>
+      <th>Class Details</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (classStat of classStats; track $index) {
+    <tr>
+      <td>{{ classStat.className }}</td>
+      <td>{{ classStat.totalStudents }}</td>
+      <td>{{ classStat.maleStudents }}</td>
+      <td>{{ classStat.femaleStudents }}</td>
+      <td>{{ classStat.averageAge | number:'1.2-2'}}</td>
+      <td>
+        <button [routerLink]="['/students', classStats[$index].classId]">
+          Get Details
+        </button>
+      </td>
+    </tr>
+    }
+    @empty {
+    <tr>
+      <td>1</td>
+      <td>10</td>
+      <td>5</td>
+      <td>5</td>
+      <td>10</td>
+    </tr>
+    }
+  </tbody>
+</table>
+} }
+
+
+<router-outlet></router-outlet>
