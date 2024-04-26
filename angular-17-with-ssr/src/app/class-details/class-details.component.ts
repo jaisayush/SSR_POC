@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterRenderPhase, Component, afterNextRender } from '@angular/core';
 import { SchoolService } from '../school.service';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterLink, RouterOutlet } from '@angular/router';
@@ -6,6 +6,7 @@ import { ClassDetails } from '../school';
 import { ReplaySubject, takeUntil } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Chart, ChartModule } from 'angular-highcharts';
+import Highcharts from 'highcharts';
 @Component({
   selector: 'app-class-details',
   standalone: true,
@@ -25,6 +26,7 @@ export class ClassDetailsComponent {
   classStats: ClassDetails[] = [];
   loading: boolean = false;
   chart!: Chart;
+  isHighchart = typeof Highcharts === 'object';
 
   constructor(private schoolService: SchoolService) {}
 
@@ -36,6 +38,7 @@ export class ClassDetailsComponent {
       .subscribe((data: ClassDetails[]) => {
         this.classStats = data;
         this.loading = false;
+        // ERROR TypeError: Highcharts.chart is not a function
         this.initializeChart();
       });
   }

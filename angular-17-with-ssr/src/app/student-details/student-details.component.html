@@ -2,7 +2,9 @@
 @if (loading) {
 <h3>Loading...</h3>
 } @else { @if (studentsData) {
+@if (isHighchart) {
 <div [chart]="chart" style="width: 100%; height: 400px;"></div>
+}
 <table>
   <thead>
     <tr>

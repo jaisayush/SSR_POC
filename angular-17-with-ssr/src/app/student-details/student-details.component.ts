@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Student } from '../school';
 import { Chart, ChartModule } from 'angular-highcharts';
 import { Options } from 'highcharts';
+import Highcharts from 'highcharts';
 @Component({
   selector: 'app-student-details',
   standalone: true,
@@ -16,6 +17,7 @@ import { Options } from 'highcharts';
 })
 export class StudentDetailsComponent {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+  isHighchart = typeof Highcharts === 'object';
   classId: number | undefined;
   loading: boolean = false;
   studentsData: Student[] = [];
